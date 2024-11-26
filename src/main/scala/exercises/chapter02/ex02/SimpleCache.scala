@@ -14,21 +14,21 @@ object SimpleCache:
   private val cache: MutableMap[UUID, Item] = MutableMap.empty
 
   def addItem(value: String): UIO[UUID] =
-    Clock.currentDateTime.map { now =>
+    Clock.instant.map { now =>
       val key  = UUID.randomUUID()
-      val item = Item(value, now.plus(validity).toInstant())
+      val item = Item(value, now.plus(validity))
       cache.put(key, item)
       key
     }
 
   def getItem(key: UUID): UIO[Option[String]] =
-    Clock.currentDateTime.map { now =>
+    Clock.instant.map { now =>
       cache.get(key) match
-        case Some(item) if item.expiry.isAfter(now.toInstant()) =>
+        case Some(item) if item.expiry.isAfter(now) =>
           Some(item.value)
-        case Some(item)                                         =>
+        case Some(item)                             =>
           cache.remove(key)
           None
-        case None                                               =>
+        case None                                   =>
           None
     }

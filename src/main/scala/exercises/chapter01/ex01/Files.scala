@@ -1,10 +1,10 @@
-package exercises
+package exercises.chapter01.ex01
 
 import zio.*
 import java.io.PrintWriter
 import java.io.File
 
-object Ex0111 extends ZIOAppDefault:
+object Files extends ZIOAppDefault:
   def readFileZIO(file: String): ZIO[Scope, Throwable, String] =
     ZIO
       .fromAutoCloseable(ZIO.attempt(scala.io.Source.fromFile(file)))

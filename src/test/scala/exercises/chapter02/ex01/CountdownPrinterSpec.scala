@@ -1,14 +1,14 @@
-package exercises
+package exercises.chapter02.ex01
 
 import zio.*
 import zio.test.*
 
-object Ex020701Spec extends ZIOSpecDefault:
+object CountdownPrinterSpec extends ZIOSpecDefault:
 
-  def spec = suite("Exercise 2.7.1")(
+  def spec = suite("Chapter 2 Exercise 1 - Countdown printer")(
     test("Countdown prints appropriate number of counts") {
       for
-        fiber  <- Ex020701.printNumbers(5, 1.second).fork
+        fiber  <- CountdownPrinter.printNumbers(5, 1.second).fork
         _      <- TestClock.adjust(5.seconds)
         result <- fiber.join
         output <- TestConsole.output
